@@ -18,7 +18,7 @@ repeating the same function body in function overload
 //     return a > b ? a : b;
 // }
 
-//T a, T b: template parameter
+//T a, T b: template parameter with call by value
 template <typename T> 
 T maximum(T a, T b){
     return a > b ? a : b;
