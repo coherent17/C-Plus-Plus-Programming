@@ -18,6 +18,7 @@ repeating the same function body in function overload
 //     return a > b ? a : b;
 // }
 
+//T a, T b: template parameter
 template <typename T> 
 T maximum(T a, T b){
     return a > b ? a : b;
@@ -34,9 +35,13 @@ int main(){
     float e = 9.4;
     float f = 3.5;
 
+    // a, and b are template argument
     cout << maximum(a, b) << endl;
     cout << maximum(c, d) << endl;
     cout << maximum(e, f) << endl;
+
+    //how about maximm(a, c), using specfic type to generate
+    cout << maximum<double>(a, c) << endl;
 
     return 0;
 }
