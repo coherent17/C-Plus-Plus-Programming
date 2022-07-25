@@ -80,8 +80,8 @@ int main(){
     Dog d1("Harry", "Shepherd", 2);
     d1.printInfo();
 
-    testFunction1();
-    testFunction2();
+    testFunction1();    //test for local stack object is out of scope
+    testFunction2();    //test for heap object delete
 
     cout << "Done" << endl;
     return 0;   //after this line, will excute the destructor
