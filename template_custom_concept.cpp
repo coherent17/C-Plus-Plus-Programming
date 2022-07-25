@@ -18,7 +18,7 @@ concept Incrementable = requires(T a){
     a += 1;
     a++;
     ++a;
-}
+};
 
 //using own concept
 
