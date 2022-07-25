@@ -11,6 +11,7 @@ class Cylinder{
 
     public:
     //Constructor: called by compiler to init the class object
+        //Cylinder() = default;     //let compiler do the empty constructor
         Cylinder(){
             r = 2;
             h = 2;
