@@ -1,6 +1,6 @@
 CC = g++
-CXXFLAGS = -g -Wall
-OBJ = person.o player.o
+CXXFLAGS = -g -Wall -std=c++11
+OBJ = person.o engineer.o civilengineer.o
 BIN = main
 
 all: $(BIN)
