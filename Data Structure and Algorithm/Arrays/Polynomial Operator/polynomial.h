@@ -3,7 +3,7 @@
 using namespace std;
 
 struct term{
-    float coef;
+    int coef;
     int exp;
 };
 
@@ -15,6 +15,9 @@ class Polynomial{
     int capacity;   //sizeof termArray
     int terms;      //number of non-zero term
 
+    private:
+        void NewTerm(int coef, int exp);
+
     public:
         //constructor
         Polynomial();
@@ -23,14 +26,12 @@ class Polynomial{
         ~Polynomial();
 
         //setter
-        void SetPolynomial(int termCounts, float *coef_array, int *exp_array);
+        void SetPolynomial(int termCounts, int *coef_array, int *exp_array);
 
         //method
-        void add(Polynomial& x, Polynomial &result)const;       //return *this + x
-        Polynomial mult(Polynomial& x)const;      //return *this * x
+        int eval(int x_value);
+        void add(Polynomial& x, Polynomial &result);        //return *this + x
+        void minus(Polynomial& x, Polynomial &result);      //return *this - x
         void printPolynomial();
-
-    private:
-        void NewTerm(float coef, int exp);
 
 };
