@@ -13,10 +13,11 @@ bool cmp(term a, term b){
     return a.exp > b.exp;
 }
 
-Polynomial::Polynomial(){
+Polynomial::Polynomial(string description){
     terms = 0;
     capacity = InitCapacity;
     termArray = new term[capacity];
+    this->description = description;
 }
 
 Polynomial::~Polynomial(){
@@ -45,6 +46,7 @@ int Polynomial::eval(int x_value){
     for(int i = 0; i < terms; i++){
         result += termArray[i].coef * (int)pow(x_value, termArray[i].exp);
     }
+    cout << description <<"(" << x_value <<") : ";
     return result;
 }
 
@@ -141,6 +143,7 @@ void Polynomial::mult(Polynomial& x, Polynomial &result){
             new_coef = termArray[i].coef * x.termArray[j].coef;
             new_exp = termArray[i].exp + x.termArray[j].exp;
             new_index = result.get_coef(new_exp);
+            
             if(new_coef != 0 && new_index == NOT_FOUND){
                 result.NewTerm(new_coef, new_exp);
             }
@@ -154,10 +157,33 @@ void Polynomial::mult(Polynomial& x, Polynomial &result){
     }
 }
 
+bool Polynomial::diff(Polynomial& x){
+    int a = 0, b = 0;
+    bool result = false;
+    for(; a < terms || b < x.terms; ){
+        while(termArray[a].coef == 0)a++;    //find the first no zero term
+        while(x.termArray[b].coef == 0)b++;  //find the first no zero term
+        if(termArray[a].exp == x.termArray[b].exp && termArray[a].coef == x.termArray[b].coef){
+            a++;
+            b++;
+            continue;
+        }
+        else result = true;
+        break;
+    }
+    cout << description << " and " << x.description << " is different? ";
+
+    return result;
+}
+
 void Polynomial::printPolynomial(){
+
+    cout << description << " : ";
     for(int i = 0; i < terms; i++){
-        cout << termArray[i].coef << "x^"<< termArray[i].exp;
-        if(i != terms - 1) cout << " + ";
+        if(termArray[i].coef != 0){
+            cout << termArray[i].coef << "x^"<< termArray[i].exp;
+            if(i != terms - 1) cout << " + ";
+        }
     }
     cout << endl;
 }
