@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #define InitCapacity 100
+#define NOT_FOUND INT32_MIN
 
 using namespace std;
 
@@ -43,6 +44,14 @@ int Polynomial::eval(int x_value){
     int result = 0;
     for(int i = 0; i < terms; i++){
         result += termArray[i].coef * (int)pow(x_value, termArray[i].exp);
+    }
+    return result;
+}
+
+int Polynomial::get_coef(int exp){
+    int result = NOT_FOUND;
+    for(int i = 0; i < terms; i++){
+        if(termArray[i].exp == exp) return i;
     }
     return result;
 }
@@ -121,6 +130,28 @@ void Polynomial::minus(Polynomial& x, Polynomial &result){
         result.NewTerm(x.termArray[x_index].coef, x.termArray[x_index].exp);
         x_index++;
     }    
+}
+
+void Polynomial::mult(Polynomial& x, Polynomial &result){
+    int new_coef = 0;
+    int new_exp = 0;
+    int new_index = NOT_FOUND;
+    for(int i = 0; i < terms; i++){
+        for(int j = 0; j < x.terms; j++){
+            new_coef = termArray[i].coef * x.termArray[j].coef;
+            new_exp = termArray[i].exp + x.termArray[j].exp;
+            new_index = result.get_coef(new_exp);
+            if(new_coef != 0 && new_index == NOT_FOUND){
+                result.NewTerm(new_coef, new_exp);
+            }
+
+            else{
+                result.termArray[new_index].coef += new_coef;
+            }
+
+            sort(result.termArray, result.termArray + result.terms, cmp);
+        }
+    }
 }
 
 void Polynomial::printPolynomial(){

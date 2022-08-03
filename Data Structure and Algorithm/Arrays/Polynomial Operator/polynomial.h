@@ -30,8 +30,10 @@ class Polynomial{
 
         //method
         int eval(int x_value);
-        void add(Polynomial& x, Polynomial &result);        //return *this + x
-        void minus(Polynomial& x, Polynomial &result);      //return *this - x
+        int get_coef(int exp);                                 //return the coeffient at specific exponent
+        void add(Polynomial& x, Polynomial &result);        //result = *this + x
+        void minus(Polynomial& x, Polynomial &result);      //result = *this - x
+        void mult(Polynomial& x, Polynomial &result);       //result = *this * x  
         void printPolynomial();
 
 };
