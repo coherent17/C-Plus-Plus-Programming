@@ -38,9 +38,6 @@ int **createSparseMatrix(int row, int col, int non_zero_terms){
                 ret[random_row][random_col] = random_val;
                 canBreak = true;
             }
-            else{
-                cout << "relocate non zero term" << endl;
-            }
         }
     }
 
