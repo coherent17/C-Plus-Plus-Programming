@@ -30,10 +30,11 @@ class SparseMatrix{
         ~SparseMatrix();
 
         //method
-        void print_smArray();                   //print triple <row, col, value> in smArray
-        void printSparseMatrix();               //print the whole sparse matrix
-        SparseMatrix Transpose();               //return the transpose of (*this) matrix
-        SparseMatrix FastTranspose();           //return the fast transpose of (*this) matrix
-        SparseMatrix Add(const SparseMatrix& x);
+        void print_smArray();                       //print triple <row, col, value> in smArray
+        void printSparseMatrix();                   //print the whole sparse matrix
+        SparseMatrix Transpose();                   //return the transpose of (*this) matrix
+        SparseMatrix FastTranspose();               //return the fast transpose of (*this) matrix
+        SparseMatrix Add(const SparseMatrix& x);    //return *this matrix + x
+        SparseMatrix Minus(const SparseMatrix& x);  //return *this matrix - x
         //SparseMatrix Mult(const SparseMatrix& x);
 };

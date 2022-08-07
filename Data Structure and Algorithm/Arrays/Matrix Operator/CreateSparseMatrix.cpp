@@ -1,6 +1,5 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
+#include <random>
 
 using namespace std;
 
@@ -25,13 +24,14 @@ int **createSparseMatrix(int row, int col, int non_zero_terms){
     }
 
     //fix the random number
-    srand(time(NULL));
+    random_device rd;
+    mt19937 gen(rd());
     for(int i = 0; i < non_zero_terms; i++){
         bool canBreak = false;
         while(!canBreak){
-            int random_row = rand() % row;
-            int random_col = rand() % col;
-            int random_val = rand() % MAX_RAND;
+            int random_row = gen() % row;
+            int random_col = gen() % col;
+            int random_val = gen() % MAX_RAND;
 
             if(ret[random_row][random_col] == 0){
                 if(random_val == 0) continue;

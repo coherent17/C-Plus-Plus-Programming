@@ -194,7 +194,6 @@ SparseMatrix SparseMatrix::Add(const SparseMatrix& x){
     int xIndex = 0;
 
     while(thisIndex < terms && xIndex < x.terms){
-
         int x_row = x.smArray[xIndex].row;
         int x_col = x.smArray[xIndex].col;
         int this_row = smArray[thisIndex].row;
@@ -244,6 +243,91 @@ SparseMatrix SparseMatrix::Add(const SparseMatrix& x){
         ret.smArray[ret.terms].row = x.smArray[xIndex].row;
         ret.smArray[ret.terms].col = x.smArray[xIndex].col;
         ret.smArray[ret.terms].value = x.smArray[xIndex].value;
+        ret.terms++;
+        xIndex++;            
+    }
+
+    return ret;
+}
+
+
+SparseMatrix SparseMatrix::Minus(const SparseMatrix& x){
+
+    SparseMatrix ret;
+    ret.name = name + "_Minus_" + x.name;
+    ret.row = row;
+    ret.col = col;
+    ret.terms = 0;
+    ret.smArray = new MatrixTerm[row * col];
+
+    //check for the dimension of two matrixs
+    if(row != x.row || col != x.col){
+        cerr << "SparseMatrix::Minus() Dimension Error!" << endl;
+        cerr << "Minusing " << name << " & " << x.name << " error!" << endl;
+        ret.row = 0;
+        ret.col = 0;
+        ret.terms = 0;
+        delete[] ret.smArray;
+        ret.smArray = NULL;
+        return ret;
+    }
+
+
+
+    int thisIndex = 0;
+    int xIndex = 0;
+
+    while(thisIndex < terms && xIndex < x.terms){
+        int x_row = x.smArray[xIndex].row;
+        int x_col = x.smArray[xIndex].col;
+        int this_row = smArray[thisIndex].row;
+        int this_col = smArray[thisIndex].col;
+        //this row and col is smaller
+        if((x_row > this_row) || (x_row == this_row && x_col > this_col)){
+            ret.smArray[ret.terms].row = smArray[thisIndex].row;
+            ret.smArray[ret.terms].col = smArray[thisIndex].col;
+            ret.smArray[ret.terms].value = smArray[thisIndex].value;
+            ret.terms++;
+            thisIndex++;
+        }
+
+        //x's row and col is smaller
+        else if((x_row < this_row) || (x_row == this_row && x_col < this_col)){
+            ret.smArray[ret.terms].row = x.smArray[xIndex].row;
+            ret.smArray[ret.terms].col = x.smArray[xIndex].col;
+            ret.smArray[ret.terms].value = -1 * x.smArray[xIndex].value;
+            ret.terms++;
+            xIndex++;            
+        }
+
+        //same row and col
+        else{
+            int minus_result = smArray[thisIndex].value - x.smArray[xIndex].value;
+            if(minus_result != 0){
+                ret.smArray[ret.terms].row = x.smArray[xIndex].row;
+                ret.smArray[ret.terms].col = x.smArray[xIndex].col;
+                ret.smArray[ret.terms].value = minus_result;
+                ret.terms++;               
+            }
+            thisIndex++;
+            xIndex++; 
+
+        }
+    }
+
+    //insert the remaining elements
+    while(thisIndex < terms){
+        ret.smArray[ret.terms].row = smArray[thisIndex].row;
+        ret.smArray[ret.terms].col = smArray[thisIndex].col;
+        ret.smArray[ret.terms].value = smArray[thisIndex].value;
+        ret.terms++;
+        thisIndex++;        
+    }
+
+    while(xIndex < x.terms){
+        ret.smArray[ret.terms].row = x.smArray[xIndex].row;
+        ret.smArray[ret.terms].col = x.smArray[xIndex].col;
+        ret.smArray[ret.terms].value = -1 * x.smArray[xIndex].value;
         ret.terms++;
         xIndex++;            
     }
