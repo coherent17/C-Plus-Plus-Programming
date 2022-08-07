@@ -33,6 +33,7 @@ class SparseMatrix{
         void print_smArray();                   //print triple <row, col, value> in smArray
         void printSparseMatrix();               //print the whole sparse matrix
         SparseMatrix Transpose();               //return the transpose of (*this) matrix
-        SparseMatrix Add(const SparseMatrix& x);
-        SparseMatrix Mult(const SparseMatrix& x);
+        SparseMatrix FastTranspose();           
+        //SparseMatrix Add(const SparseMatrix& x);
+        //SparseMatrix Mult(const SparseMatrix& x);
 };

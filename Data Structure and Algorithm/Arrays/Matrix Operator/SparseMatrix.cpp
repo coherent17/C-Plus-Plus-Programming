@@ -85,10 +85,11 @@ void SparseMatrix::printSparseMatrix(){
     delete[] tempMatrix;         
 }
 
+//time complexity: O(col * terms)
 SparseMatrix SparseMatrix::Transpose(){
     
     SparseMatrix ret;
-    ret.name = name.append("Transpose");
+    ret.name = name + " Transpose";
     ret.row = col;
     ret.col = row;
     ret.terms = terms;
@@ -96,8 +97,8 @@ SparseMatrix SparseMatrix::Transpose(){
 
     if(terms > 0){
         int current_smArrayIndex = 0;
-        for(int i = 0; i < col; i++){
-            for(int j = 0; j < terms; j++){
+        for(int i = 0; i < col; i++){           //O(col)
+            for(int j = 0; j < terms; j++){     //O(terms)
                 if(smArray[j].col == i){
                     ret.smArray[current_smArrayIndex].row = i;
                     ret.smArray[current_smArrayIndex].col = smArray[j].row;
@@ -106,6 +107,47 @@ SparseMatrix SparseMatrix::Transpose(){
                 }
             }
         }
+    }
+
+    return ret;
+}
+
+SparseMatrix SparseMatrix::FastTranspose(){
+
+    SparseMatrix ret;
+    ret.name = name + " Fast Transpose";
+    ret.row = col;
+    ret.col = row;
+    ret.terms = terms;
+    ret.smArray = new MatrixTerm[terms];
+
+    if(terms > 0){
+        int *rowSize = new int[col];
+        int *rowStart = new int[col];
+
+        for(int i = 0; i < col; i++){
+            rowSize[i] = 0;
+        }
+
+        for(int i = 0; i < terms; i++){
+            rowSize[smArray[i].col]++;
+        }
+
+        rowStart[0] = 0;
+        for(int i = 1; i < col; i++){
+            rowStart[i] = rowStart[i - 1] + rowSize[i - 1];
+        }
+
+        for(int i = 0; i < terms; i++){
+            int newIndex = rowStart[smArray[i].col];
+            ret.smArray[newIndex].row = smArray[i].col;
+            ret.smArray[newIndex].col = smArray[i].row;
+            ret.smArray[newIndex].value = smArray[i].value;
+            rowStart[smArray[i].col]++;
+        }
+
+        delete[] rowSize;
+        delete[] rowStart;
     }
 
     return ret;
