@@ -25,7 +25,7 @@ int **createSparseMatrix(int row, int col, int non_zero_terms){
     }
 
     //fix the random number
-    srand(7);
+    srand(time(NULL));
     for(int i = 0; i < non_zero_terms; i++){
         bool canBreak = false;
         while(!canBreak){
@@ -50,6 +50,7 @@ void printMatrix(int **matrix, int row, int col){
         return;
     }
     for(int i = 0; i < row; i++){
+        cout << "\t";
         for(int j = 0; j < col; j++){
             cout << matrix[i][j] << " ";
         }

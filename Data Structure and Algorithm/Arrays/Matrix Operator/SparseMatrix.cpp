@@ -69,7 +69,9 @@ void SparseMatrix::printSparseMatrix(){
     }
 
     //print out the whole matrix
+    cout << name << " : " << endl;
     for(int i = 0; i < row; i++){
+        cout << "\t";
         for(int j = 0; j < col; j++){
             cout << tempMatrix[i][j] << " ";
         }
@@ -85,7 +87,13 @@ void SparseMatrix::printSparseMatrix(){
 
 SparseMatrix SparseMatrix::Transpose(){
     
-    SparseMatrix ret(name.append("Transpose"), col, row, terms);
+    SparseMatrix ret;
+    ret.name = name.append("Transpose");
+    ret.row = col;
+    ret.col = row;
+    ret.terms = terms;
+    ret.smArray = new MatrixTerm[terms];
+
     if(terms > 0){
         int current_smArrayIndex = 0;
         for(int i = 0; i < col; i++){
