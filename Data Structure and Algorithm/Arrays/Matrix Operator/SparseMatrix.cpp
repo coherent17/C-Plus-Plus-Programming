@@ -167,7 +167,7 @@ SparseMatrix SparseMatrix::FastTranspose(){
 }
 
 
-SparseMatrix SparseMatrix::Add(const SparseMatrix& x){
+SparseMatrix SparseMatrix::Add(SparseMatrix& x){
 
     SparseMatrix ret;
     ret.name = name + "_Add_" + x.name;
@@ -251,7 +251,7 @@ SparseMatrix SparseMatrix::Add(const SparseMatrix& x){
 }
 
 
-SparseMatrix SparseMatrix::Minus(const SparseMatrix& x){
+SparseMatrix SparseMatrix::Minus(SparseMatrix& x){
 
     SparseMatrix ret;
     ret.name = name + "_Minus_" + x.name;
@@ -332,5 +332,76 @@ SparseMatrix SparseMatrix::Minus(const SparseMatrix& x){
         xIndex++;            
     }
 
+    return ret;
+}
+
+SparseMatrix SparseMatrix::Mult(SparseMatrix& x){
+    SparseMatrix xT = x.FastTranspose();
+
+    SparseMatrix ret;
+    ret.name = name + "_Mult_" + x.name;
+    ret.row = row;
+    ret.col = x.col;
+    ret.terms = 0;
+    ret.smArray = new MatrixTerm[ret.row * ret.col];
+
+    //check for the dimension of two matrixs
+    if(col != x.row){
+        cerr << "SparseMatrix::Mult() Dimension Error!" << endl;
+        cerr << "Multiplying " << name << " & " << x.name << " error!" << endl;
+        ret.row = 0;
+        ret.col = 0;
+        ret.terms = 0;
+        delete[] ret.smArray;
+        ret.smArray = NULL;
+        return ret;
+    }
+
+    for(int i = 0; i < terms;){
+
+        //current row of the result matrix
+        int r = smArray[i].row;
+
+
+        for(int j = 0; j < xT.terms;){
+
+            //current col of the result matrix
+            int c = xT.smArray[j].row;
+
+
+            int tempa = i;
+            int tempb = j;
+            int sum = 0;
+
+
+            //make sure the row of current term remains the same (r or c)
+            while(tempa < terms && smArray[tempa].row == r && tempb < xT.terms && xT.smArray[tempb].row == c){
+                
+                if(smArray[tempa].col < xT.smArray[tempb].col) tempa++;
+
+                else if(smArray[tempa].col > xT.smArray[tempb].col) tempb++;
+
+                else{
+                    sum += smArray[tempa].value * xT.smArray[tempb].value;
+                    tempa++;
+                    tempb++;
+                }
+            }
+
+            //insert the sum into the ret variable
+            if(sum != 0){
+                ret.smArray[ret.terms].row = r;
+                ret.smArray[ret.terms].col = c;
+                ret.smArray[ret.terms].value = sum;
+                ret.terms++;
+            }
+
+            while(j < xT.terms && xT.smArray[j].row == c) j++;
+
+
+        }
+        while(i < terms && smArray[i].row == r) i++;
+        
+    }
     return ret;
 }

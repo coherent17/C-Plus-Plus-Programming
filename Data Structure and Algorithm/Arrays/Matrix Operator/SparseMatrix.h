@@ -34,7 +34,7 @@ class SparseMatrix{
         void printSparseMatrix();                   //print the whole sparse matrix
         SparseMatrix Transpose();                   //return the transpose of (*this) matrix
         SparseMatrix FastTranspose();               //return the fast transpose of (*this) matrix
-        SparseMatrix Add(const SparseMatrix& x);    //return *this matrix + x
-        SparseMatrix Minus(const SparseMatrix& x);  //return *this matrix - x
-        //SparseMatrix Mult(const SparseMatrix& x);
+        SparseMatrix Add(SparseMatrix& x);    //return *this matrix + x
+        SparseMatrix Minus(SparseMatrix& x);  //return *this matrix - x
+        SparseMatrix Mult(SparseMatrix& x);
 };

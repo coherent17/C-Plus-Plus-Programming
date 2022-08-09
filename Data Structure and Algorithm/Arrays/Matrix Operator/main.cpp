@@ -87,6 +87,10 @@ int main(){
     Sm1_Minus_Sm2T.printSparseMatrix();
 
 
+    //test mult
+    SparseMatrix Sm1_Multiply_Sm2T = Sm1.Mult(Sm2T);
+    Sm1_Multiply_Sm2T.printSparseMatrix();
+
     freeMatrix(m1, row1, col1);
     freeMatrix(m2, row2, col2);
     return 0;
