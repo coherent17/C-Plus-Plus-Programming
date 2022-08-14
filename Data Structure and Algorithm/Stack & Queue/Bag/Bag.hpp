@@ -69,7 +69,12 @@ T& Bag<T>::Element()const{
 template <class T>
 void Bag<T>::push(const T& element){
     if(capacity == top + 1){
-        array = (T *)realloc(array, 2 * capacity);
+        T *newArray = new T[2 * capacity];
+        for(int i = 0; i <= top; i++){
+            newArray[i] = array[i];
+        }
+        delete[] array;
+        array = newArray;
         capacity *= 2;
     }
     array[++top] = element;
@@ -89,16 +94,12 @@ void Bag<T>::pop(){
 
 template <class T>
 ostream& operator <<(ostream& out, const Bag<T>& bag){
-    if(bag.top == -1){
-        cout << " I am here" << endl;
-        out << "Empty Bag" << endl;
-        return out;
-    }
+    out << "Bag Size : " << bag.size() << ", Bag Capacity : " << bag.capacity << endl;
 
     for(int i = 0; i <= bag.top; i++){
         out << bag.array[i] << " ";
     }
-    cout << endl;
+    out << endl;
     return out;
 }
 
